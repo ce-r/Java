@@ -1,6 +1,6 @@
 For SmithWaterman.java,
 
-SmithWaterman algorithm is for local alignment sequencing. It generates a scoring 2D matrix with a linear gap model. 
+SmithWaterman algorithm is for local alignment sequencing and the traceback is for the max local alignment. It generates a scoring 2D matrix with a linear gap model. 
 The traceback works, although it may be cutting corners with the approach to identifying the start position in the matrix. 
 The strategy for traceback is actually solved here by generating arrows for the path of alignment, while also generating scores. 
 So two matrices are generated at once simply because each position in the matrix holds an object and each object carries two data types. 
