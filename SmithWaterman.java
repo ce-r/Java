@@ -21,97 +21,6 @@ class SmithWaterman {
             System.out.println();
         }
         System.out.println();
-    } 
-
-    public static void printSeqs(Result[][] adjMat, String p, String q){
-        Stack<String> subSeq1 = new Stack<String>(), subSeq2 = new Stack<String>();
-        int[] shortList1 = new int[3], shortList2 = new int[3], shortList3 = new int[3];
-        ArrayList<int[]> compVals = new ArrayList<>();
-        int lasti = adjMat.length-1;
-        
-        int triali = lasti, previ = triali-1;//sec to last row
-        int currMax = Collections.max(new Result().getRowList(adjMat[triali]));
-        int prevMax = Collections.max(new Result().getRowList(adjMat[previ]));
-        while(triali>=0){//row with "max"
-            if(currMax > prevMax)
-                break;
-            triali--; previ--;
-            currMax = Collections.max(new Result().getRowList(adjMat[triali]));
-            prevMax = Collections.max(new Result().getRowList(adjMat[previ]));
-        }
-
-        //skipping row means we add indel to col space seq
-        //conversely, add indel to row space seq when skipping col
-        int i = triali;
-        int j = new Result().getRowList(adjMat[triali]).indexOf(currMax);
-        while(i>0 && j>0){//going up, left or diag
-            //System.out.println("index i: " + i + " " + "index j: " + j);
-            shortList1[0] = adjMat[i-1][j-1].getCellValue();
-            shortList1[1] = (i-1); shortList1[2] = (j-1);
-            compVals.add(shortList1);
-
-            shortList2[0] = adjMat[i][j-1].getCellValue();
-            shortList2[1] = (i); shortList2[2] = (j-1);
-            compVals.add(shortList2);
-
-            shortList3[0] = adjMat[i-1][j].getCellValue();
-            shortList3[1] = (i-1); shortList3[2] = (j);
-            compVals.add(shortList3);
-
-            int mx=0, ii=0, jj=0;
-            for(int[] al: compVals){
-                if(mx<al[0]){
-                    mx = al[0];
-                    ii = al[1];
-                    jj = al[2];
-                }
-            }
-
-            compVals.clear();
-            int prevRow = i, prevCol = j;
-            //i is for row seq, j is for col seq
-            if(ii == prevRow-1 && jj == prevCol-1){//assuming P is for the col space seq
-                if(p.charAt(prevRow-1)==q.charAt(prevCol-1)){
-                    subSeq1.push(String.valueOf(p.charAt(prevRow-1)));
-                    subSeq2.push(String.valueOf(q.charAt(prevCol-1)));
-                }
-                else {
-                    subSeq1.push("*" + String.valueOf(p.charAt(prevRow-1)) + "*");//diagonal cell but no match
-                    subSeq2.push('*' + String.valueOf(q.charAt(prevCol-1)) + '*');
-                }
-            }
-            else if(ii == prevRow && jj == prevCol-1){//INDEL gets added to col seq, skipped col
-                if(p.charAt(prevRow-1)==q.charAt((prevCol-1)-1)){
-                    subSeq1.push(String.valueOf(p.charAt(prevRow-1)));
-                    subSeq2.push(String.valueOf(q.charAt((prevCol-1)-1)));
-                }
-                else {
-                    subSeq1.push("-");
-                    subSeq2.push(String.valueOf(q.charAt((prevCol-1)-1)));
-                }
-            }
-            else if(ii == prevRow-1 && jj == prevCol){
-                if(p.charAt((prevRow-1)-1)==q.charAt(prevCol-1)){
-                    subSeq1.push(String.valueOf(p.charAt((prevRow-1)-1)));
-                    subSeq2.push(String.valueOf(q.charAt(prevCol-1)));
-                }
-                else {
-                    subSeq1.push(String.valueOf(p.charAt(prevRow-1)));
-                    subSeq2.push("-");
-                }
-            }
-            i = ii; j = jj;
-        }
-
-        System.out.print("seq1: ");
-        while(!subSeq1.empty())
-            System.out.print(subSeq1.pop() + " ");
-        System.out.println();
-
-        System.out.print("seq2: ");
-        while(!subSeq2.empty())
-            System.out.print(subSeq2.pop() + " ");
-        System.out.println();
     }
 
     //the character arrow representation is used to do traceback on the scoring matrix
@@ -287,7 +196,6 @@ class SmithWaterman {
         //sString P = "KVLEFGY";
         Result[][] r = sw(P, Q);//Q, P
         printAdjMat(r);
-        //printSeqs(r, P, Q);
         printSeqsArrows(r, P, Q);
         //WE ASSUME ABSOLUTE MAX in matrix
     }
