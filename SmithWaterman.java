@@ -193,7 +193,7 @@ class SmithWaterman {
         String P = "GCAGAGCACG";//"KVLEFGY";//
         String Q = "GCTGGAAGGCAT";//"EQLLKALEFKL";//
         //String Q = "EQLLKALEFKL";
-        //sString P = "KVLEFGY";
+        //String P = "KVLEFGY";
         Result[][] r = sw(P, Q);//Q, P
         printAdjMat(r);
         printSeqsArrows(r, P, Q);
