@@ -6,3 +6,7 @@ The strategy for traceback is actually solved here by generating arrows for the 
 So two matrices are generated at once simply because each position in the matrix holds an object and each object carries two data types. 
 Let's say for example the last element in the 2D matrix is the starting point or the maximum element. You will always check the up left diagonal 
 element for the direction to go next.  That is the key in this traceback. 
+
+
+For IterativeRedBlackBST.java, 
+It is a conversion from princeton's recursive versions to an iterative algorithm. 
